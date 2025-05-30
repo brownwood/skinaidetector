@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skinai/appservices/image_picker_service.dart';
+import 'package:skinai/views/result_sheet.dart';
 
 import '../constants/colors.dart';
 import '../constants/size_config.dart';
@@ -48,18 +49,16 @@ class FaceScanningContainer extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         child: const Text('Gallery',style: TextStyle(color: primaryColor),),
-                        onPressed: () {
-                          imagePickerService.analyzeImageWithOpenAI(context, 1); // 0 Camera OR 1 Gallery
-                          // imagePickerService.getDataGallery(context);// Dismiss alert dialog
-                          Navigator.pop(context);
+                        onPressed: ()async {
+                          final String userImage = await imagePickerService.uploadingImageToFirebase(context, 1);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResultSheet(userImage: userImage),));
                         },
                       ),
                       TextButton(
                         child: const Text('Camera',style: TextStyle(color: primaryColor),),
-                        onPressed: () {
-                          imagePickerService.analyzeImageWithOpenAI(context, 0); // 0 Camera OR 1 Gallery
-                          // imagePickerService.getDataCamera(context); // Dismiss alert dialog
-                          Navigator.pop(context);
+                        onPressed: () async {
+                          final String userImage = await imagePickerService.uploadingImageToFirebase(context, 0);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResultSheet(userImage: userImage),));
                         },
                       ),
                     ],

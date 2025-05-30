@@ -1,15 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinai/api_key_secret.dart';
-import 'package:skinai/bloc/process_image_bloc.dart';
 import 'package:skinai/constants/size_config.dart';
 import 'package:skinai/firebase_options.dart';
-import 'package:skinai/views/chat_screen.dart';
 import 'package:skinai/views/home_screen.dart';
-import 'package:skinai/views/splash_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,16 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return  MultiBlocProvider(providers: [
-      BlocProvider<ProcessImageBloc>(create: (context) => ProcessImageBloc(),)
-    ], child: MaterialApp(
-      home: const SplashScreen(),
+    return  MaterialApp(
+      home:  HomeScreen(),
       title: 'Skin Disease Detector',
       theme: ThemeData(
           textTheme: GoogleFonts.poppinsTextTheme()
       ),
       debugShowCheckedModeBanner: false,
-    ));
+    );
   }
 }
 

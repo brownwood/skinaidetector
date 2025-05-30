@@ -1,15 +1,11 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:skinai/appservices/image_picker_service.dart';
-import 'package:skinai/bloc/process_image_bloc.dart';
-import 'package:skinai/bloc/process_image_state.dart';
+import 'package:skinai/appservices/location_services.dart';
 import 'package:skinai/constants/colors.dart';
 import 'package:skinai/constants/size_config.dart';
 import 'package:skinai/views/chat_screen.dart';
 import 'package:skinai/views/product_description_screen.dart';
-
-import '../bloc/process_image_event.dart';
 import '../reuseablewidgets/face_scanning_container.dart';
 import '../reuseablewidgets/product_container.dart';
 
@@ -29,10 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final LocationService locationService = LocationService();
+
   @override
   void initState() {
     // TODO: implement initState
-    BlocProvider.of<ProcessImageBloc>(context).add(ProcessImageEvent(false));
+    locationService.getCurrentLocation();
     super.initState();
   }
   @override
@@ -41,11 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       backgroundColor: secondaryColor,
       drawer: const Drawer(),
-      body: BlocListener<ProcessImageBloc, ProcessImageState>(listener: (context, state) {
-        if(state is ProcessStatus){
-          state.isProcessing ? ImagePickerService.customMessage(context, "Processing Image",0) : Container() ;
-        }
-      },child: SafeArea(
+      body: SafeArea(
         top: true,
         child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 14),
@@ -64,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen(),));
                       }, icon: const Icon(Iconsax.message)),
 
-                      Text('AI Care',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2, fontWeight: FontWeight.w600,color: primaryColor),overflow: TextOverflow.fade,),
+                      Text('HYDRA HUB',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2, fontWeight: FontWeight.w600,color: primaryColor),overflow: TextOverflow.fade,),
 
 
                       IconButton(onPressed: (){}, icon: const Icon(Iconsax.shopping_bag4))
@@ -73,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
 
-                // Face Scanning Container
                 const FaceScanningContainer(),
 
                 SizedBox(
@@ -120,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             )
         ),
-      ))
+      )
     );
   }
 }
