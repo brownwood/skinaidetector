@@ -8,7 +8,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skinai/constants/colors.dart';
 import 'package:skinai/constants/size_config.dart';
-import 'package:skinai/views/result_sheet.dart';
 
 class ImagePickerService{
 
@@ -63,28 +62,24 @@ class ImagePickerService{
       customMessage(context, "message", 1);
     }
   }
-  Future analyzeImageWithOpenAI(BuildContext context, String userImage)async{
-
-    var headers = {
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse('https://hydra-hub-mf38ztuwu-touseef-ahmeds-projects.vercel.app/api/ai/analyze'));
+  Future analyzeImageWithOpenAI(BuildContext context, String userImage, {String prompt = "Please analyze this skin condition"}) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request(
+      'POST',
+      Uri.parse('https://hydra-hub-mf38ztuwu-touseef-ahmeds-projects.vercel.app/api/ai/analyze'),
+    );
     request.body = json.encode({
       "imageUrl": userImage,
-      "message": "Please analyze this skin condition"
+      "message": prompt,
     });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      var res = await response.stream.bytesToString();
-      return res;
+      return await response.stream.bytesToString();
+    } else {
+      throw Exception(response.reasonPhrase);
     }
-    else {
-      print(response.reasonPhrase);
-    }
-
-
   }
 }

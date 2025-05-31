@@ -3,12 +3,11 @@ import 'package:http/http.dart' as http;
 
 class DermatologistService {
   static const String _baseUrl =
-      'https://hydra-hub-jhk5uedx1-touseef-ahmeds-projects.vercel.app/api';
-
+      'https://hydra-hub-nu3pkryb6-touseef-ahmeds-projects.vercel.app/api';
   static Future<List<dynamic>> getNearbyDermatologists({
     required double latitude,
     required double longitude,
-    bool problemDetected = false,
+    bool problemDetected = true,
     int radius = 5000,
   }) async {
     final uri = Uri.parse(

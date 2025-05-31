@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:skinai/appservices/image_picker_service.dart';
 import '../constants/colors.dart';

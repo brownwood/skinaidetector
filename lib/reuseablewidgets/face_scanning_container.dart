@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skinai/appservices/image_picker_service.dart';
-import 'package:skinai/views/result_sheet.dart';
-
 import '../constants/colors.dart';
 import '../constants/size_config.dart';
+import '../views/chat_image_screen.dart';
 
 class FaceScanningContainer extends StatelessWidget {
   const FaceScanningContainer({
@@ -51,15 +50,15 @@ class FaceScanningContainer extends StatelessWidget {
                         child: const Text('Gallery',style: TextStyle(color: primaryColor),),
                         onPressed: ()async {
                           final String userImage = await imagePickerService.uploadingImageToFirebase(context, 1);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResultSheet(userImage: userImage),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatWithImageScreen(userImage: userImage),));
                         },
                       ),
                       TextButton(
                         child: const Text('Camera',style: TextStyle(color: primaryColor),),
                         onPressed: () async {
-                          final String userImage = await imagePickerService.uploadingImageToFirebase(context, 0);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResultSheet(userImage: userImage),));
-                        },
+                          final String userImage = await imagePickerService.uploadingImageToFirebase(context, 0); // or 1 for gallery
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatWithImageScreen(userImage: userImage))
+                          );},
                       ),
                     ],
                   );

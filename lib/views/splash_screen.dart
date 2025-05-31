@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skinai/views/home_screen.dart';
 import '../pageview/PageView.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,10 +13,32 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  Future getUserDetails()async{
+    final SharedPreferences userLog = await SharedPreferences.getInstance();
+    var email = userLog.getString("email");
+    return email;
+  }
 
   @override
   void initState() {
     // TODO: implement initState
+    getUserDetails().then((val){
+      if(val != null){
+        Timer(const Duration(seconds: 3), () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  const HomeScreen()),
+          );
+        });
+      } else{
+        Timer(const Duration(seconds: 3), () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  const PageViewScreen()),
+          );
+        });
+      }
+    });
     super.initState();
     navigateToNextScreen();
   }

@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:skinai/appservices/location_services.dart';
@@ -35,85 +37,88 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: secondaryColor,
-      drawer: const Drawer(),
-      body: SafeArea(
-        top: true,
-        child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 14),
-            width: SizeConfig.screenWidth * 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) => exit(0),
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: secondaryColor,
+        drawer: const Drawer(),
+        body: SafeArea(
+          top: true,
+          child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 14),
+              width: SizeConfig.screenWidth * 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                SizedBox(
-                  width: SizeConfig.screenWidth * 1,
-                  child: Row(
+                  SizedBox(
+                    width: SizeConfig.screenWidth * 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
+                        IconButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen(),));
+                        }, icon: const Icon(Iconsax.message)),
+
+                        Text('HYDRA HUB',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2, fontWeight: FontWeight.w600,color: primaryColor),overflow: TextOverflow.fade,),
+
+
+                        IconButton(onPressed: (){}, icon: const Icon(Iconsax.shopping_bag4))
+                      ],
+                    ),
+                  ),
+
+
+                  const FaceScanningContainer(),
+
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
-                      IconButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen(),));
-                      }, icon: const Icon(Iconsax.message)),
-
-                      Text('HYDRA HUB',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2, fontWeight: FontWeight.w600,color: primaryColor),overflow: TextOverflow.fade,),
-
-
-                      IconButton(onPressed: (){}, icon: const Icon(Iconsax.shopping_bag4))
+                      Text('Top Selling',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2, fontWeight: FontWeight.w600,color: primaryColor),),
+                      Text('see more',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.5, fontWeight: FontWeight.w400,color: primaryColor),),
                     ],
                   ),
-                ),
 
+                  // Product Listing
 
-                const FaceScanningContainer(),
+                  SizedBox(
+                    width: SizeConfig.screenWidth * 1,
+                    height: SizeConfig.screenHeight * 0.5,
+                    child: CustomScrollView(
+                      physics: const ScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      slivers:[
 
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 2,
-                ),
+                        SliverAnimatedList(
+                          itemBuilder: (context, index, animation) {
+                            return GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDescriptionScreen(image: productImages[index], title: productTitle[index],stock: productAvailability[index],productPrice: productPrice[index],),));
+                            },
+                            child: ProductContainer(
+                              productImage: productImages[index],
+                              productTitle: productTitle[index],
+                              productCategory: 'Beauty',
+                              productPrice: '${productPrice[index]} PKR',
+                              productAvailability: productAvailability[index],
+                            ),
+                          );
+                        },initialItemCount: productTitle.length,)
+                      ]
+                    ),
+                  )
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Top Selling',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2, fontWeight: FontWeight.w600,color: primaryColor),),
-                    Text('see more',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.5, fontWeight: FontWeight.w400,color: primaryColor),),
-                  ],
-                ),
-
-                // Product Listing
-
-                SizedBox(
-                  width: SizeConfig.screenWidth * 1,
-                  height: SizeConfig.screenHeight * 0.5,
-                  child: CustomScrollView(
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    slivers:[
-
-                      SliverAnimatedList(
-                        itemBuilder: (context, index, animation) {
-                          return GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDescriptionScreen(image: productImages[index], title: productTitle[index],stock: productAvailability[index],productPrice: productPrice[index],),));
-                          },
-                          child: ProductContainer(
-                            productImage: productImages[index],
-                            productTitle: productTitle[index],
-                            productCategory: 'Beauty',
-                            productPrice: '${productPrice[index]} PKR',
-                            productAvailability: productAvailability[index],
-                          ),
-                        );
-                      },initialItemCount: productTitle.length,)
-                    ]
-                  ),
-                )
-
-              ],
-            )
-        ),
-      )
+                ],
+              )
+          ),
+        )
+      ),
     );
   }
 }

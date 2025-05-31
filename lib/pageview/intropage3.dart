@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skinai/constants/colors.dart';
 import 'package:skinai/pageview/Custom_text.dart';
-import 'package:skinai/views/home_screen.dart';
+import 'package:skinai/views/login_screen.dart';
 
 class IntroPage3 extends StatefulWidget {
   const IntroPage3({super.key});
@@ -77,18 +77,13 @@ class _IntroPage3State extends State<IntroPage3> {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  Positioned(
-                    bottom: screenHeight * 0.1,
-                    left: 0,
-                    right: 0,
-                    child: ElevatedButton(
-                        style: const ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(secondaryColor)
-                        ),
-                        onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),));
-                    }, child: CustomText(text: "Done", size: 16, fontWeight: FontWeight.w600,color: Colors.black,)),
-                  ),
+                  ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(secondaryColor)
+                      ),
+                      onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
+                  }, child: CustomText(text: "Done", size: 16, fontWeight: FontWeight.w600,color: Colors.black,)),
                 ],
               ),
             ),
