@@ -104,7 +104,7 @@ class _ChatWithImageScreenState extends State<ChatWithImageScreen> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -141,7 +141,7 @@ class _ChatWithImageScreenState extends State<ChatWithImageScreen> {
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Center(
@@ -160,7 +160,7 @@ class _ChatWithImageScreenState extends State<ChatWithImageScreen> {
                         fontWeight: FontWeight.w500,
                         shadows: [
                           Shadow(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withValues(alpha: 0.5),
                             offset: const Offset(1, 1),
                             blurRadius: 3,
                           )
